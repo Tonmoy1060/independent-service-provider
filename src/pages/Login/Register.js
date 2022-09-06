@@ -9,6 +9,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Loading from "../Shared/Loading";
 
+
 const Register = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ const Register = () => {
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
 
   const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+  
 
   let authError;
 
@@ -38,8 +40,10 @@ const Register = () => {
     if (password !== rePassword) {
       setPassError("Two password are not same");
     }
+    
     await createUserWithEmailAndPassword(email, password);
     await updateProfile({ displayName: name})
+    
     e.target.reset();
     const from = location.state?.from?.pathname || "/";
     navigate(from, { replace: true });

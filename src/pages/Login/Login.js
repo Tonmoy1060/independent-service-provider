@@ -2,35 +2,39 @@ import React from "react";
 import auth from "../../firebase.init";
 import {
   useSignInWithEmailAndPassword,
-  useSignInWithGoogle,useSendEmailVerification
+  useSignInWithGoogle,
+  useSendEmailVerification,
 } from "react-firebase-hooks/auth";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Loading from "../Shared/Loading";
 
 const Login = () => {
-   const location = useLocation();
+  const location = useLocation();
   const navigate = useNavigate();
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
+  const [sendEmailVerification, sending, varifyError] =
+    useSendEmailVerification(auth);
 
   const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
 
   let authError;
 
-  if (error || gError ) {
+  if (error || gError) {
     authError = error?.message || gError?.message;
   }
 
-  if (loading || gLoading ) {
-   return <Loading></Loading>
+  if (loading || gLoading) {
+    return <Loading></Loading>;
   }
 
-  const handleLogInForm = (e) => {
+  const handleLogInForm = async (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-      signInWithEmailAndPassword(email, password);
+    await sendEmailVerification();
+    await signInWithEmailAndPassword(email, password);
     e.target.reset();
   };
 
@@ -42,7 +46,7 @@ const Login = () => {
   return (
     <div className="d-flex align-items-center justify-content-center vw-100 vh-100">
       <div className="pb-4 m-2 shadow-lg p-4 rounded-4  ">
-        <h3 className="text-center fw-bold  px-5 mx-5">{" "}Login {" "}</h3>
+        <h3 className="text-center fw-bold  px-5 mx-5"> Login </h3>
         <form onSubmit={handleLogInForm} className="p-1">
           <div class="mb-3 ">
             <label for="exampleInputEmail1" class="form-label ">
