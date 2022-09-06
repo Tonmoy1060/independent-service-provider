@@ -2,12 +2,15 @@ import React from "react";
 import auth from "../../firebase.init";
 import {
   useSignInWithEmailAndPassword,
-  useSignInWithGoogle,
+  useSignInWithGoogle,useSendEmailVerification
 } from "react-firebase-hooks/auth";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Loading from "../Shared/Loading";
 
 const Login = () => {
+   const location = useLocation();
+  const navigate = useNavigate();
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
 
@@ -15,17 +18,27 @@ const Login = () => {
 
   let authError;
 
-  if (error || gError) {
+  if (error || gError ) {
     authError = error?.message || gError?.message;
+  }
+
+  if (loading || gLoading ) {
+   return <Loading></Loading>
   }
 
   const handleLogInForm = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    signInWithEmailAndPassword(email, password);
+      signInWithEmailAndPassword(email, password);
     e.target.reset();
   };
+
+  const from = location.state?.from?.pathname || "/";
+  if (user || gUser) {
+    navigate(from, { replace: true });
+  }
+
   return (
     <div className="d-flex align-items-center justify-content-center vw-100 vh-100">
       <div className="pb-4 m-2 shadow-lg p-4 rounded-4  ">

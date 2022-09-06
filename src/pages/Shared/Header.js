@@ -16,7 +16,7 @@ const Header = () => {
   const [user, loading, error] = useAuthState(auth);
 
   if (loading){
-    <Loading></Loading>
+    return <Loading></Loading>
   }
 
   const logout = () => {
@@ -29,7 +29,7 @@ const Header = () => {
       <Container>
           <Navbar.Brand className="p-4 "  href="#home">
             
-            <span  style={{backgroundImage: `url(${logo})`,  backgroundSize: 'cover'}} className=" fw-bold p-4 fs-2 text-">Picturesque</span>
+            <span  style={{backgroundImage: `url(${logo})`,  backgroundSize: 'cover'}} className=" fw-bold p-3 fs-2 text-">Picturesque</span>
           </Navbar.Brand>
         </Container>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />

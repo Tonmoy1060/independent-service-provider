@@ -1,14 +1,14 @@
 import React from 'react';
-import Footer from '../Shared/Footer';
 import Banner from './Banner';
 import GetInTouch from './GetInTouch';
-import Services from './Services';
+import LoadServices from './LoadServices';
+
 
 const Home = () => {
    return (
       <div>
          <Banner></Banner>
-         <Services></Services>
+         <LoadServices></LoadServices>
          <GetInTouch></GetInTouch>
       </div>
    );
